@@ -1,10 +1,10 @@
+import { memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterChange } from '../../redux/contacts/contacts-actions';
-import { getFilter } from '../../redux/contacts/contacts-selectors';
+import { contactsActions, contactsSelectors } from '../../redux/contacts';
 import s from './Filter.module.css';
 
 function Filter() {
-    const filter = useSelector(getFilter);
+    const filter = useSelector(contactsSelectors.getFilter);
     const dispatch = useDispatch();
 
     return (
@@ -15,10 +15,12 @@ function Filter() {
                 name="filter"
                 value={filter}
                 autoComplete="off"
-                onChange={e => dispatch(filterChange(e.target.value))}
+                onChange={e =>
+                    dispatch(contactsActions.filterChange(e.target.value))
+                }
             />
         </label>
     );
 }
 
-export default Filter;
+export default memo(Filter);

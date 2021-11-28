@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import s from './ContactForm.module.css';
-import { addContact } from '../../redux/contacts/contacts-actions';
-import { getContacts } from '../../redux/contacts/contacts-selectors';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 
-export default function ContactForm() {
+function ContactForm() {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
 
-    const contacts = useSelector(getContacts);
+    const contacts = useSelector(contactsSelectors.getContacts);
     const dispatch = useDispatch();
 
     const handleInputChange = e => {
@@ -33,7 +32,7 @@ export default function ContactForm() {
             return;
         }
 
-        dispatch(addContact({ name, number }));
+        dispatch(contactsOperations.addContact({ name, number }));
         resetState();
     };
 
@@ -69,3 +68,5 @@ export default function ContactForm() {
         </form>
     );
 }
+
+export default memo(ContactForm);

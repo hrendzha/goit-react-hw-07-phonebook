@@ -1,13 +1,19 @@
+import { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactListItem from '../ContactListItem';
-import { deleteContact } from '../../redux/contacts/contacts-actions';
-import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 import s from './ContactList.module.css';
 
 function ContactList() {
-    const visibleContacts = useSelector(getFilteredContacts);
+    const visibleContacts = useSelector(contactsSelectors.getFilteredContacts);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(contactsOperations.fetchContacts());
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <ul>
@@ -16,7 +22,9 @@ function ContactList() {
                     <ContactListItem
                         name={name}
                         number={number}
-                        onClick={() => dispatch(deleteContact(id))}
+                        onClick={() =>
+                            dispatch(contactsOperations.deleteContact(id))
+                        }
                     />
                 </li>
             ))}
@@ -24,4 +32,4 @@ function ContactList() {
     );
 }
 
-export default ContactList;
+export default memo(ContactList);
