@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { contactsActions, contactsSelectors } from '../../redux/contacts';
+import { contactsActions, contactsSelectors } from 'redux/contacts';
 import s from './Filter.module.css';
 
 function Filter() {

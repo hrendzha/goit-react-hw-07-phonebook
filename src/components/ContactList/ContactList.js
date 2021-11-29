@@ -1,7 +1,7 @@
 import { useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactListItem from '../ContactListItem';
-import { contactsOperations, contactsSelectors } from '../../redux/contacts';
+import { contactsOperations, contactsSelectors } from 'redux/contacts';
 import s from './ContactList.module.css';
 
 function ContactList() {
@@ -10,10 +10,12 @@ function ContactList() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(contactsOperations.fetchContacts());
+        const promise = dispatch(contactsOperations.fetchContacts());
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        return () => {
+            promise.abort();
+        };
+    }, [dispatch]);
 
     return (
         <ul>
